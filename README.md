@@ -18,26 +18,34 @@ To run the image in a container
 Navigate to http://localhost:8080
 
 Create Pod:
-    kubectcreate -f pod.yml
+
+    kubectl create -f pod.yml
 
 Forward Port:
+
      kubectl port-forward jetty-pod 7080:8080
 
 Navigate to:
+
     http://localhost:7080
 
 Delete the Pod:
+
     kubectl delete pod/jetty-pod
 
 Create RC:
+
     kubectl create -f rc.yml
 
 See if they are ready:
+
     kubectl get rc -o wide
 
 Describe the pods:
+
     kubectl describe rc
 
 Delete rc:
+
     kubectl delete replicationcontroller/rc-jetty-test
 
