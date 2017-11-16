@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: nifisvc
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+  selector:
+    app: nifi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nifi-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
+---
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: nifi
+spec:
+  selector:
+    matchLabels:
+      app: nifi
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: nifi
+    spec:
+      containers:
+      - image: hashmapinc/nifik8_140:single
+        name: nifi
+        ports:
+        - containerPort: 8080
+          name: nifi
+        volumeMounts:
+        - name: nifi-persistent-conf
+          mountPath: /opt/nifi/nifi-1.4.0/flow
+      volumes:
+      - name: nifi-persistent-conf
+        persistentVolumeClaim:
+          claimName: nifi-pv-claim
