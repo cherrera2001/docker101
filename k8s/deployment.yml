@@ -1,0 +1,23 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: jetty-app-deploy
+spec:
+  replicas: 3
+  minReadySeconds: 5
+  selector:
+    matchLabels:
+      tier: frontend
+    matchExpressions:
+      - {key: tier, operator: In, values: [frontend]}
+  template:
+    metadata:
+      labels:
+        app: jetty-pod
+        tier: frontend
+    spec:
+      containers:
+      - name: sample-jetty-app
+        image: hashmapinc/sample_app:edge
+        ports:
+        - containerPort: 8080

@@ -26,7 +26,7 @@ public class HelloWorld extends AbstractHandler
         response.setStatus(HttpServletResponse.SC_OK);
 
         // Write back response
-        response.getWriter().println("<h1>Hello World</h1>");
+        response.getWriter().println("<h1>Hello People</h1>");
 
         // Inform jetty that this request has now been handled
         baseRequest.setHandled(true);
